@@ -17,7 +17,7 @@ if 'database' not in config_parser.sections():
 
 def get_db_connection_engine():
     # Retrieve database credentials
-    dsn = '192.168.8.116'
+    dsn = config_parser.get('database','dsn')
     db = 'AWSDB'
     user = config_parser.get('database', 'user')
     password = config_parser.get('database', 'password')
