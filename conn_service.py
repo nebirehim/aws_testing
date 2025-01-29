@@ -36,6 +36,7 @@ def get_db_connection_engine():
 
 @contextlib.contextmanager
 def get_db_connection():
+    conn = None
     try:
         logger.info("Attempting to establish database connection")
         conn = get_db_connection_engine().connect()
@@ -45,5 +46,6 @@ def get_db_connection():
         logger.error(f"Failed to connect to the database: {e}")
         raise
     finally:
-        conn.close()
-        logger.info("Database connection closed")
+        if conn is not None:
+            conn.close()
+            logger.info("Database connection closed")
