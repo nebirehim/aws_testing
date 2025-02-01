@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def execute_procedure():
-   util.execute_and_commit_procedure("PopulateTables")
+   util.execute_and_commit_procedure("PopulateTablesFromSchemas")
    logger.info("Data inserted successfully")
 
 if __name__ == "__main__":
