@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def execute_procedure():
-   util.execute_and_commit_procedure(
+   util.execute_and_commit_procedure(schema_name="AppSchema",
     procedure_name="PopulateTablesFromSchemas",
     params={
         "SourceDB": "AWSDB",
