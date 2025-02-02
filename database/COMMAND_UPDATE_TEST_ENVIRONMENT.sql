@@ -4,4 +4,4 @@ EXEC PopulateTablesFromSchemas
 
     @DestDB = 'AWSDB_TEST',
 
-    @Schemas = 'AppSchema1,AppSchema2';
+    @Schemas = 'AppSchema';

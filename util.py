@@ -1,14 +1,31 @@
 from sqlalchemy.sql import text
-import conn_service as cm 
+import conn_service as cm
 
-def execute_and_commit_procedure(procedure_name: str):
+
+def execute_and_commit_procedure(procedure_name: str, params: dict = None):
+    """
+    Executes a stored procedure with optional parameters.
+
+    :param procedure_name: Name of the stored procedure.
+    :param params: Dictionary of procedure parameters (optional).
+    """
     with cm.get_db_connection() as conn:
         try:
             trans = conn.begin()
-            # Use the `text` function to wrap the SQL statement
-            sql_statement = text(f"EXEC AppSchema.{procedure_name}")
-            r = conn.execute(sql_statement)
+
+            # Construct the SQL EXEC statement dynamically
+            if params:
+                param_str = ", ".join([f"@{key} = :{key}" for key in params.keys()])
+                sql_statement = text(f"EXEC AppSchema.{procedure_name} {param_str}")
+            else:
+                sql_statement = text(f"EXEC AppSchema.{procedure_name}")
+
+            # Execute the procedure with or without parameters
+            conn.execute(sql_statement, params or {})
+
             trans.commit()
+            print(f"Procedure '{procedure_name}' executed successfully.")
+
         except Exception as e:
             trans.rollback()
             raise RuntimeError(f"Failed to execute procedure '{procedure_name}': {e}")
